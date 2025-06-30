@@ -92,9 +92,10 @@ export function RecentDeals() {
         deal.dealName.toLowerCase().includes(filters.dealName.toLowerCase());
 
       const matchesCustomer =
-        filters.customer === "" || deal.customer.name === filters.customer;
+        filters.customer === "all" || deal.customer.name === filters.customer;
 
-      const matchesStage = filters.stage === "" || deal.stage === filters.stage;
+      const matchesStage =
+        filters.stage === "all" || deal.stage === filters.stage;
 
       return matchesDealName && matchesCustomer && matchesStage;
     });
