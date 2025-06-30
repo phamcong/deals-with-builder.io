@@ -104,6 +104,17 @@ export function RecentDeals() {
     });
   }, [filters]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredDeals.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedDeals = filteredDeals.slice(startIndex, endIndex);
+
+  // Reset to first page when filters change
+  useState(() => {
+    setCurrentPage(1);
+  });
+
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
