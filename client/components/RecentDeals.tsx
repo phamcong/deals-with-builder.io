@@ -65,8 +65,8 @@ const sampleDeals: Deal[] = [
 export function RecentDeals() {
   const [filters, setFilters] = useState({
     dealName: "",
-    customer: "",
-    stage: "" as DealStage | "",
+    customer: "all",
+    stage: "all" as DealStage | "all",
   });
 
   const formatCurrency = (value: number) => {
