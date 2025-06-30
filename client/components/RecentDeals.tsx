@@ -63,6 +63,12 @@ const sampleDeals: Deal[] = [
 ];
 
 export function RecentDeals() {
+  const [filters, setFilters] = useState({
+    dealName: "",
+    customer: "",
+    stage: "" as DealStage | "",
+  });
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -70,6 +76,36 @@ export function RecentDeals() {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);
+  };
+
+  // Get unique customers for filter dropdown
+  const uniqueCustomers = useMemo(() => {
+    const customers = sampleDeals.map((deal) => deal.customer.name);
+    return [...new Set(customers)].sort();
+  }, []);
+
+  // Filter deals based on current filters
+  const filteredDeals = useMemo(() => {
+    return sampleDeals.filter((deal) => {
+      const matchesDealName =
+        filters.dealName === "" ||
+        deal.dealName.toLowerCase().includes(filters.dealName.toLowerCase());
+
+      const matchesCustomer =
+        filters.customer === "" || deal.customer.name === filters.customer;
+
+      const matchesStage = filters.stage === "" || deal.stage === filters.stage;
+
+      return matchesDealName && matchesCustomer && matchesStage;
+    });
+  }, [filters]);
+
+  const handleFilterChange = (key: keyof typeof filters, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const clearFilters = () => {
+    setFilters({ dealName: "", customer: "", stage: "" });
   };
 
   return (
