@@ -1,8 +1,17 @@
-import { Deal } from "@shared/types";
+import { Deal, DealStage } from "@shared/types";
 import { CustomerAvatar } from "./ui/CustomerAvatar";
 import { StatusBadge } from "./ui/StatusBadge";
-import { ArrowRight, MoreVertical } from "lucide-react";
+import { ArrowRight, MoreVertical, Search, Filter } from "lucide-react";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { useState, useMemo } from "react";
 
 // Sample data matching the provided design
 const sampleDeals: Deal[] = [
