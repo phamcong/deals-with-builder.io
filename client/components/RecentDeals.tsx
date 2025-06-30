@@ -192,7 +192,9 @@ export function RecentDeals() {
                 </Select>
 
                 {/* Clear Filters Button */}
-                {(filters.dealName || filters.customer || filters.stage) && (
+                {(filters.dealName ||
+                  filters.customer !== "all" ||
+                  filters.stage !== "all") && (
                   <Button
                     variant="outline"
                     size="sm"
