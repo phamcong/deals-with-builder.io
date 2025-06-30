@@ -115,17 +115,7 @@ export function RecentDeals() {
         <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
           {/* Header */}
           <div className="bg-black px-4 py-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">Recent Deals</h3>
-              <Button
-                variant="outline"
-                size="sm"
-                className="ml-4 h-9 px-3 text-sm font-medium bg-transparent border-slate-500 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
-              >
-                <span>View All</span>
-                <ArrowRight className="ml-2 h-4 w-4 -mr-1" />
-              </Button>
-            </div>
+            <h3 className="text-lg font-semibold text-white">Recent Deals</h3>
           </div>
 
           {/* Filters */}
