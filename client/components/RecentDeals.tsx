@@ -111,9 +111,9 @@ export function RecentDeals() {
   const paginatedDeals = filteredDeals.slice(startIndex, endIndex);
 
   // Reset to first page when filters change
-  useState(() => {
+  useMemo(() => {
     setCurrentPage(1);
-  });
+  }, [filters]);
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
