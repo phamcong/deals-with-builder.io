@@ -106,7 +106,7 @@ export function RecentDeals() {
   };
 
   const clearFilters = () => {
-    setFilters({ dealName: "", customer: "", stage: "" });
+    setFilters({ dealName: "", customer: "all", stage: "all" });
   };
 
   return (
