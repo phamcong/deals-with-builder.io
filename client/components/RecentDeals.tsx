@@ -127,6 +127,89 @@ export function RecentDeals() {
             </div>
           </div>
 
+          {/* Filters */}
+          <div className="border-b border-gray-100 px-4 py-4">
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-gray-500" />
+                <span className="text-sm font-medium text-gray-700">
+                  Filters:
+                </span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 flex-1">
+                {/* Deal Name Search */}
+                <div className="relative flex-1 min-w-0 sm:max-w-xs">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search deal name..."
+                    value={filters.dealName}
+                    onChange={(e) =>
+                      handleFilterChange("dealName", e.target.value)
+                    }
+                    className="pl-9 h-9"
+                  />
+                </div>
+
+                {/* Customer Filter */}
+                <Select
+                  value={filters.customer}
+                  onValueChange={(value) =>
+                    handleFilterChange("customer", value)
+                  }
+                >
+                  <SelectTrigger className="w-full sm:w-48 h-9">
+                    <SelectValue placeholder="All customers" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All customers</SelectItem>
+                    {uniqueCustomers.map((customer) => (
+                      <SelectItem key={customer} value={customer}>
+                        {customer}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Stage Filter */}
+                <Select
+                  value={filters.stage}
+                  onValueChange={(value) =>
+                    handleFilterChange("stage", value as DealStage | "")
+                  }
+                >
+                  <SelectTrigger className="w-full sm:w-40 h-9">
+                    <SelectValue placeholder="All stages" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All stages</SelectItem>
+                    <SelectItem value="proposal">Proposal</SelectItem>
+                    <SelectItem value="negotiation">Negotiation</SelectItem>
+                    <SelectItem value="discovery">Discovery</SelectItem>
+                    <SelectItem value="closed-won">Closed Won</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Clear Filters Button */}
+                {(filters.dealName || filters.customer || filters.stage) && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="h-9 px-3 text-sm"
+                  >
+                    Clear
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Results Count */}
+            <div className="mt-3 text-sm text-gray-600">
+              Showing {filteredDeals.length} of {sampleDeals.length} deals
+            </div>
+          </div>
+
           {/* Table Container */}
           <div className="flex-1 overflow-x-auto">
             <table className="w-full border-collapse">
