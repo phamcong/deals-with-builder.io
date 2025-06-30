@@ -163,7 +163,7 @@ export function RecentDeals() {
                     <SelectValue placeholder="All customers" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All customers</SelectItem>
+                    <SelectItem value="all">All customers</SelectItem>
                     {uniqueCustomers.map((customer) => (
                       <SelectItem key={customer} value={customer}>
                         {customer}
