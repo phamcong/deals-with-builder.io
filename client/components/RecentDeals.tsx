@@ -69,6 +69,9 @@ export function RecentDeals() {
     stage: "all" as DealStage | "all",
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
