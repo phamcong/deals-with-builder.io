@@ -246,7 +246,7 @@ export function RecentDeals() {
                 </tr>
               </thead>
               <tbody>
-                {filteredDeals.map((deal) => (
+                {paginatedDeals.map((deal) => (
                   <tr
                     key={deal.id}
                     className="border-b border-gray-100 last:border-b-0"
