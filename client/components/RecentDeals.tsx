@@ -176,14 +176,14 @@ export function RecentDeals() {
                 <Select
                   value={filters.stage}
                   onValueChange={(value) =>
-                    handleFilterChange("stage", value as DealStage | "")
+                    handleFilterChange("stage", value as DealStage | "all")
                   }
                 >
                   <SelectTrigger className="w-full sm:w-40 h-9">
                     <SelectValue placeholder="All stages" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All stages</SelectItem>
+                    <SelectItem value="all">All stages</SelectItem>
                     <SelectItem value="proposal">Proposal</SelectItem>
                     <SelectItem value="negotiation">Negotiation</SelectItem>
                     <SelectItem value="discovery">Discovery</SelectItem>
