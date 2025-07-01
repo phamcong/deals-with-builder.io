@@ -50,12 +50,7 @@ export function FiltersPanel({
             <Filter className="h-5 w-5 text-gray-500" />
             <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onClose}
-            className="lg:hidden"
-          >
+          <Button variant="ghost" size="sm" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
         </div>
