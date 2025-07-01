@@ -25,7 +25,7 @@ export function RecentDeals() {
   } = useDealsFilters({ deals: sampleDeals });
 
   return (
-    <div className="bg-gray-50 min-h-0 relative flex">
+    <div className="bg-gray-50 min-h-0 relative">
       {/* Side Panel Overlay - only show on mobile when panel is open */}
       {isSidePanelOpen && (
         <div
