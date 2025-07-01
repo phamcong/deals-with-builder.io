@@ -124,7 +124,7 @@ export function RecentDeals() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen p-4 sm:p-6 lg:p-8">
+    <div className="bg-gray-50 min-h-0 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
           {/* Header */}
