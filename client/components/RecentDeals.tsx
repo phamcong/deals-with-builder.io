@@ -1,10 +1,23 @@
 import { Deal, DealStage } from "@shared/types";
 import { CustomerAvatar } from "./ui/CustomerAvatar";
 import { StatusBadge } from "./ui/StatusBadge";
-import { ArrowRight, MoreVertical, Search, Filter, X, Menu } from "lucide-react";
+import {
+  ArrowRight,
+  MoreVertical,
+  Search,
+  Filter,
+  X,
+  Menu,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { useState, useMemo } from "react";
 
 // Sample data matching the provided design
@@ -78,21 +91,22 @@ export function RecentDeals() {
 
   // Get unique customers for filter dropdown
   const uniqueCustomers = useMemo(() => {
-    const customers = sampleDeals.map(deal => deal.customer.name);
+    const customers = sampleDeals.map((deal) => deal.customer.name);
     return [...new Set(customers)].sort();
   }, []);
 
   // Filter deals based on current filters
   const filteredDeals = useMemo(() => {
-    return sampleDeals.filter(deal => {
-      const matchesDealName = filters.dealName === "" ||
+    return sampleDeals.filter((deal) => {
+      const matchesDealName =
+        filters.dealName === "" ||
         deal.dealName.toLowerCase().includes(filters.dealName.toLowerCase());
 
-      const matchesCustomer = filters.customer === "all" ||
-        deal.customer.name === filters.customer;
+      const matchesCustomer =
+        filters.customer === "all" || deal.customer.name === filters.customer;
 
-      const matchesStage = filters.stage === "all" ||
-        deal.stage === filters.stage;
+      const matchesStage =
+        filters.stage === "all" || deal.stage === filters.stage;
 
       return matchesDealName && matchesCustomer && matchesStage;
     });
@@ -110,7 +124,7 @@ export function RecentDeals() {
   }, [filters]);
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const clearFilters = () => {
@@ -153,7 +167,9 @@ export function RecentDeals() {
         <div className="p-6 space-y-6">
           {/* Deal Name Search */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Deal Name</label>
+            <label className="text-sm font-medium text-gray-700">
+              Deal Name
+            </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -167,7 +183,9 @@ export function RecentDeals() {
 
           {/* Customer Filter */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Customer</label>
+            <label className="text-sm font-medium text-gray-700">
+              Customer
+            </label>
             <Select
               value={filters.customer}
               onValueChange={(value) => handleFilterChange("customer", value)}
@@ -191,7 +209,9 @@ export function RecentDeals() {
             <label className="text-sm font-medium text-gray-700">Stage</label>
             <Select
               value={filters.stage}
-              onValueChange={(value) => handleFilterChange("stage", value as DealStage | "all")}
+              onValueChange={(value) =>
+                handleFilterChange("stage", value as DealStage | "all")
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="All stages" />
@@ -207,12 +227,10 @@ export function RecentDeals() {
           </div>
 
           {/* Clear Filters Button */}
-          {(filters.dealName || filters.customer !== "all" || filters.stage !== "all") && (
-            <Button
-              variant="outline"
-              onClick={clearFilters}
-              className="w-full"
-            >
+          {(filters.dealName ||
+            filters.customer !== "all" ||
+            filters.stage !== "all") && (
+            <Button variant="outline" onClick={clearFilters} className="w-full">
               Clear All Filters
             </Button>
           )}
@@ -242,124 +260,143 @@ export function RecentDeals() {
                   >
                     <Menu className="h-5 w-5" />
                   </Button>
-                  <h3 className="text-lg font-semibold text-gray-800">List of Deals</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    List of Deals
+                  </h3>
                 </div>
               </div>
 
-          {/* Table Container */}
-          <div className="flex-1 overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr>
-                  <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
-                    Deal Name
-                  </th>
-                  <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
-                    Customer
-                  </th>
-                  <th className="text-right font-medium py-3 px-4 border-b border-gray-100">
-                    Value
-                  </th>
-                  <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
-                    Stage
-                  </th>
-                  <th className="text-right font-medium py-3 px-4 border-b border-gray-100">
-                    Probability
-                  </th>
-                  <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
-                    Closing Date
-                  </th>
-                  <th className="text-right font-medium py-3 px-4 border-b border-gray-100">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedDeals.map((deal) => (
-                  <tr
-                    key={deal.id}
-                    className="border-b border-gray-100 last:border-b-0"
-                  >
-                    <td className="py-3 px-4 font-medium">{deal.dealName}</td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <CustomerAvatar initial={deal.customer.initial} />
-                        <p className="text-sm">{deal.customer.name}</p>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      {formatCurrency(deal.value)}
-                    </td>
-                    <td className="py-3 px-4">
-                      <StatusBadge stage={deal.stage} />
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <span>{deal.probability}</span>
-                      <span>%</span>
-                    </td>
-                    <td className="py-3 px-4">{deal.closingDate}</td>
-                    <td className="py-3 px-4 text-right">
+              {/* Table Container */}
+              <div className="flex-1 overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
+                        Deal Name
+                      </th>
+                      <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
+                        Customer
+                      </th>
+                      <th className="text-right font-medium py-3 px-4 border-b border-gray-100">
+                        Value
+                      </th>
+                      <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
+                        Stage
+                      </th>
+                      <th className="text-right font-medium py-3 px-4 border-b border-gray-100">
+                        Probability
+                      </th>
+                      <th className="text-left font-medium py-3 px-4 border-b border-gray-100">
+                        Closing Date
+                      </th>
+                      <th className="text-right font-medium py-3 px-4 border-b border-gray-100">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {paginatedDeals.map((deal) => (
+                      <tr
+                        key={deal.id}
+                        className="border-b border-gray-100 last:border-b-0"
+                      >
+                        <td className="py-3 px-4 font-medium">
+                          {deal.dealName}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center gap-2">
+                            <CustomerAvatar initial={deal.customer.initial} />
+                            <p className="text-sm">{deal.customer.name}</p>
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          {formatCurrency(deal.value)}
+                        </td>
+                        <td className="py-3 px-4">
+                          <StatusBadge stage={deal.stage} />
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <span>{deal.probability}</span>
+                          <span>%</span>
+                        </td>
+                        <td className="py-3 px-4">{deal.closingDate}</td>
+                        <td className="py-3 px-4 text-right">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-9 w-9 p-0 bg-slate-50/30 border-slate-300 hover:bg-slate-100 transition-colors"
+                            aria-label="more options"
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="border-t border-gray-100 px-4 py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-gray-600">
+                      Showing {startIndex + 1} to{" "}
+                      {Math.min(endIndex, filteredDeals.length)} of{" "}
+                      {filteredDeals.length} results
+                    </div>
+
+                    <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-9 w-9 p-0 bg-slate-50/30 border-slate-300 hover:bg-slate-100 transition-colors"
-                        aria-label="more options"
+                        onClick={() =>
+                          setCurrentPage((prev) => Math.max(prev - 1, 1))
+                        }
+                        disabled={currentPage === 1}
+                        className="h-9 px-3"
                       >
-                        <MoreVertical className="h-4 w-4" />
+                        Previous
                       </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="border-t border-gray-100 px-4 py-4">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  Showing {startIndex + 1} to {Math.min(endIndex, filteredDeals.length)} of {filteredDeals.length} results
-                </div>
+                      <div className="flex items-center gap-1">
+                        {Array.from(
+                          { length: totalPages },
+                          (_, i) => i + 1,
+                        ).map((page) => (
+                          <Button
+                            key={page}
+                            variant={
+                              page === currentPage ? "default" : "outline"
+                            }
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            className="h-9 w-9 p-0"
+                          >
+                            {page}
+                          </Button>
+                        ))}
+                      </div>
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="h-9 px-3"
-                  >
-                    Previous
-                  </Button>
-
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                       <Button
-                        key={page}
-                        variant={page === currentPage ? "default" : "outline"}
+                        variant="outline"
                         size="sm"
-                        onClick={() => setCurrentPage(page)}
-                        className="h-9 w-9 p-0"
+                        onClick={() =>
+                          setCurrentPage((prev) =>
+                            Math.min(prev + 1, totalPages),
+                          )
+                        }
+                        disabled={currentPage === totalPages}
+                        className="h-9 px-3"
                       >
-                        {page}
+                        Next
                       </Button>
-                    ))}
+                    </div>
                   </div>
-
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="h-9 px-3"
-                  >
-                    Next
-                  </Button>
                 </div>
-              </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
