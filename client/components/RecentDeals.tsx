@@ -1,23 +1,10 @@
 import { Deal, DealStage } from "@shared/types";
 import { CustomerAvatar } from "./ui/CustomerAvatar";
 import { StatusBadge } from "./ui/StatusBadge";
-import {
-  ArrowRight,
-  MoreVertical,
-  Search,
-  Filter,
-  X,
-  Menu,
-} from "lucide-react";
+import { ArrowRight, MoreVertical, Search, Filter, X, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useState, useMemo } from "react";
 
 // Sample data matching the provided design
@@ -91,22 +78,21 @@ export function RecentDeals() {
 
   // Get unique customers for filter dropdown
   const uniqueCustomers = useMemo(() => {
-    const customers = sampleDeals.map((deal) => deal.customer.name);
+    const customers = sampleDeals.map(deal => deal.customer.name);
     return [...new Set(customers)].sort();
   }, []);
 
   // Filter deals based on current filters
   const filteredDeals = useMemo(() => {
-    return sampleDeals.filter((deal) => {
-      const matchesDealName =
-        filters.dealName === "" ||
+    return sampleDeals.filter(deal => {
+      const matchesDealName = filters.dealName === "" ||
         deal.dealName.toLowerCase().includes(filters.dealName.toLowerCase());
 
-      const matchesCustomer =
-        filters.customer === "all" || deal.customer.name === filters.customer;
+      const matchesCustomer = filters.customer === "all" ||
+        deal.customer.name === filters.customer;
 
-      const matchesStage =
-        filters.stage === "all" || deal.stage === filters.stage;
+      const matchesStage = filters.stage === "all" ||
+        deal.stage === filters.stage;
 
       return matchesDealName && matchesCustomer && matchesStage;
     });
@@ -124,7 +110,7 @@ export function RecentDeals() {
   }, [filters]);
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    setFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const clearFilters = () => {
@@ -132,100 +118,133 @@ export function RecentDeals() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-0 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
-          {/* Header */}
-          <div className="bg-gray-200 px-4 py-6">
-            <h3 className="text-lg font-semibold text-gray-800">
-              List of Deals
-            </h3>
+    <div className="bg-gray-50 min-h-0 relative">
+      {/* Side Panel Overlay */}
+      {isSidePanelOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsSidePanelOpen(false)}
+        />
+      )}
+
+      {/* Side Panel */}
+      <div
+        className={`fixed top-0 left-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 z-50 lg:relative lg:w-80 lg:shadow-none lg:translate-x-0 ${
+          isSidePanelOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-6 border-b border-gray-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Filter className="h-5 w-5 text-gray-500" />
+              <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsSidePanelOpen(false)}
+              className="lg:hidden"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-6">
+          {/* Deal Name Search */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Deal Name</label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search deal name..."
+                value={filters.dealName}
+                onChange={(e) => handleFilterChange("dealName", e.target.value)}
+                className="pl-9"
+              />
+            </div>
           </div>
 
-          {/* Filters */}
-          <div className="border-b border-gray-100 px-4 py-4">
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-              <div className="flex items-center gap-2">
-                <Filter className="h-4 w-4 text-gray-500" />
-                <span className="text-sm font-medium text-gray-700">
-                  Filters:
-                </span>
-              </div>
+          {/* Customer Filter */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Customer</label>
+            <Select
+              value={filters.customer}
+              onValueChange={(value) => handleFilterChange("customer", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All customers" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All customers</SelectItem>
+                {uniqueCustomers.map((customer) => (
+                  <SelectItem key={customer} value={customer}>
+                    {customer}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 flex-1">
-                {/* Deal Name Search */}
-                <div className="relative flex-1 min-w-0 sm:max-w-xs">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Search deal name..."
-                    value={filters.dealName}
-                    onChange={(e) =>
-                      handleFilterChange("dealName", e.target.value)
-                    }
-                    className="pl-9 h-9"
-                  />
-                </div>
+          {/* Stage Filter */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Stage</label>
+            <Select
+              value={filters.stage}
+              onValueChange={(value) => handleFilterChange("stage", value as DealStage | "all")}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All stages" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All stages</SelectItem>
+                <SelectItem value="proposal">Proposal</SelectItem>
+                <SelectItem value="negotiation">Negotiation</SelectItem>
+                <SelectItem value="discovery">Discovery</SelectItem>
+                <SelectItem value="closed-won">Closed Won</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-                {/* Customer Filter */}
-                <Select
-                  value={filters.customer}
-                  onValueChange={(value) =>
-                    handleFilterChange("customer", value)
-                  }
-                >
-                  <SelectTrigger className="w-full sm:w-48 h-9">
-                    <SelectValue placeholder="All customers" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All customers</SelectItem>
-                    {uniqueCustomers.map((customer) => (
-                      <SelectItem key={customer} value={customer}>
-                        {customer}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+          {/* Clear Filters Button */}
+          {(filters.dealName || filters.customer !== "all" || filters.stage !== "all") && (
+            <Button
+              variant="outline"
+              onClick={clearFilters}
+              className="w-full"
+            >
+              Clear All Filters
+            </Button>
+          )}
 
-                {/* Stage Filter */}
-                <Select
-                  value={filters.stage}
-                  onValueChange={(value) =>
-                    handleFilterChange("stage", value as DealStage | "all")
-                  }
-                >
-                  <SelectTrigger className="w-full sm:w-40 h-9">
-                    <SelectValue placeholder="All stages" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All stages</SelectItem>
-                    <SelectItem value="proposal">Proposal</SelectItem>
-                    <SelectItem value="negotiation">Negotiation</SelectItem>
-                    <SelectItem value="discovery">Discovery</SelectItem>
-                    <SelectItem value="closed-won">Closed Won</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                {/* Clear Filters Button */}
-                {(filters.dealName ||
-                  filters.customer !== "all" ||
-                  filters.stage !== "all") && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={clearFilters}
-                    className="h-9 px-3 text-sm"
-                  >
-                    Clear
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            {/* Results Count */}
-            <div className="mt-3 text-sm text-gray-600">
+          {/* Results Count */}
+          <div className="pt-4 border-t border-gray-100">
+            <div className="text-sm text-gray-600">
               Showing {filteredDeals.length} of {sampleDeals.length} deals
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className={`transition-all duration-300 lg:ml-80`}>
+        <div className="p-4 sm:p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
+              {/* Header */}
+              <div className="bg-gray-200 px-4 py-6">
+                <div className="flex items-center gap-4">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsSidePanelOpen(true)}
+                    className="lg:hidden"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                  <h3 className="text-lg font-semibold text-gray-800">List of Deals</h3>
+                </div>
+              </div>
 
           {/* Table Container */}
           <div className="flex-1 overflow-x-auto">
@@ -300,18 +319,14 @@ export function RecentDeals() {
             <div className="border-t border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-600">
-                  Showing {startIndex + 1} to{" "}
-                  {Math.min(endIndex, filteredDeals.length)} of{" "}
-                  {filteredDeals.length} results
+                  Showing {startIndex + 1} to {Math.min(endIndex, filteredDeals.length)} of {filteredDeals.length} results
                 </div>
 
                 <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                     className="h-9 px-3"
                   >
@@ -319,27 +334,23 @@ export function RecentDeals() {
                   </Button>
 
                   <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (page) => (
-                        <Button
-                          key={page}
-                          variant={page === currentPage ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setCurrentPage(page)}
-                          className="h-9 w-9 p-0"
-                        >
-                          {page}
-                        </Button>
-                      ),
-                    )}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <Button
+                        key={page}
+                        variant={page === currentPage ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setCurrentPage(page)}
+                        className="h-9 w-9 p-0"
+                      >
+                        {page}
+                      </Button>
+                    ))}
                   </div>
 
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                    }
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                     className="h-9 px-3"
                   >
