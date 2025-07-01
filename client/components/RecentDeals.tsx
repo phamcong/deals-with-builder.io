@@ -54,14 +54,15 @@ export function RecentDeals() {
               {/* Header */}
               <div className="bg-gray-200 px-4 py-6">
                 <div className="flex items-center gap-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsSidePanelOpen(true)}
-                    className="lg:hidden"
-                  >
-                    <Menu className="h-5 w-5" />
-                  </Button>
+                  {!isSidePanelOpen && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsSidePanelOpen(true)}
+                    >
+                      <Menu className="h-5 w-5" />
+                    </Button>
+                  )}
                   <h3 className="text-lg font-semibold text-gray-800">
                     List of Deals
                   </h3>
