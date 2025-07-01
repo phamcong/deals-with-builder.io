@@ -25,7 +25,7 @@ export function RecentDeals() {
   } = useDealsFilters({ deals: sampleDeals });
 
   return (
-    <div className="bg-gray-50 min-h-0 relative">
+    <div className="bg-gray-50 min-h-0 relative flex">
       {/* Side Panel Overlay */}
       {isSidePanelOpen && (
         <div
@@ -47,7 +47,7 @@ export function RecentDeals() {
       />
 
       {/* Main Content */}
-      <div className="transition-all duration-300 lg:ml-80">
+      <div className="flex-1 transition-all duration-300">
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="max-w-7xl mx-auto">
             <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
