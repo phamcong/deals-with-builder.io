@@ -128,7 +128,7 @@ export function RecentDeals() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
           {/* Header */}
-          <div className="bg-gray-100 px-4 py-6">
+          <div className="bg-gray-200 px-4 py-6">
             <h3 className="text-lg font-semibold text-gray-800">
               List of Deals
             </h3>
