@@ -129,7 +129,7 @@ export function RecentDeals() {
         <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
           {/* Header */}
           <div className="bg-black px-4 py-6">
-            <h3 className="text-lg font-semibold text-white">Recent Deals</h3>
+            <h3 className="text-lg font-semibold text-white">List of Deals</h3>
           </div>
 
           {/* Filters */}
