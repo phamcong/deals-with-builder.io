@@ -40,7 +40,7 @@ export function FiltersPanel({
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 z-50 lg:relative lg:h-auto lg:flex-shrink-0 ${
+      className={`fixed top-0 left-0 h-full w-80 bg-white shadow-lg transform transition-transform duration-300 z-50 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
