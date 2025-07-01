@@ -49,24 +49,28 @@ export function RecentDeals() {
       {/* Main Content */}
       <div className="flex-1 transition-all duration-300">
         <div className="p-4 sm:p-6 lg:p-8">
+          {/* Menu Button - Outside of table */}
+          {!isSidePanelOpen && (
+            <div className="mb-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsSidePanelOpen(true)}
+                className="flex items-center gap-2"
+              >
+                <Menu className="h-4 w-4" />
+                <span>Filters</span>
+              </Button>
+            </div>
+          )}
+
           <div className="max-w-7xl mx-auto">
             <div className="bg-white border border-slate-200/40 rounded-lg overflow-hidden transition-all duration-100">
               {/* Header */}
               <div className="bg-gray-200 px-4 py-6">
-                <div className="flex items-center gap-4">
-                  {!isSidePanelOpen && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsSidePanelOpen(true)}
-                    >
-                      <Menu className="h-5 w-5" />
-                    </Button>
-                  )}
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    List of Deals
-                  </h3>
-                </div>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  List of Deals
+                </h3>
               </div>
 
               {/* Deals Table */}
