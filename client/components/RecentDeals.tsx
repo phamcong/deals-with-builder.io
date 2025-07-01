@@ -78,6 +78,7 @@ export function RecentDeals() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
