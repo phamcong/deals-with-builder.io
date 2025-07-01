@@ -26,7 +26,7 @@ export function RecentDeals() {
 
   return (
     <div className="bg-gray-50 min-h-0 relative flex">
-      {/* Side Panel Overlay */}
+      {/* Side Panel Overlay - only show on mobile when panel is open */}
       {isSidePanelOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
